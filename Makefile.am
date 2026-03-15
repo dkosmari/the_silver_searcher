@@ -77,4 +77,7 @@ test_big: ag
 test_fail: ag
 	cram -v tests/fail/*.t
 
-.PHONY: test test_big test_fail
+rpm: the_silver_searcher.spec
+	rpmbuild --build-in-place -bb $<
+
+.PHONY: test test_big test_fail rpm

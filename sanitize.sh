@@ -175,7 +175,7 @@ fi
 
 if [[ ! -e ./configure ]]; then
     echo "Warning: ./configure not found. Running autogen"
-    vrun ./autogen.sh || die "autogen.sh failed"
+    vrun ./bootstrap || die "bootstrap failed"
 fi
 
 echo "Running sanitizers: ${run_sanitizers[*]}"

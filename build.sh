@@ -3,6 +3,6 @@
 set -e
 cd "$(dirname "$0")"
 
-./autogen.sh
+./bootstrap
 ./configure "$@"
 make -j4

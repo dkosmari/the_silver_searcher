@@ -34,21 +34,15 @@ How is it so fast?
 * Ag uses Pthreads to take advantage of multiple CPU cores and search files in parallel.
 
 %prep
-%setup -q
-
+%autosetup
 
 %build
-aclocal
-autoconf
-autoheader
-automake --add-missing
 %configure 
-make %{?_smp_mflags}
+%make_build
 
 
 %install
-rm -rf ${RPM_BUILD_ROOT}
-make install DESTDIR=${RPM_BUILD_ROOT}
+%make_install
 mkdir -p ${RPM_BUILD_ROOT}%{_bashcompdir}
 install -m 644 ag.bashcomp.sh ${RPM_BUILD_ROOT}%{_bashcompdir}
 

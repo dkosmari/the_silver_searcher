@@ -1,8 +1,54 @@
-ACLOCAL_AMFLAGS = ${ACLOCAL_FLAGS}
+CC = $(PTHREAD_CC)
+
+AM_CPPFLAGS = \
+	-D_GNU_SOURCE
+
+AM_CFLAGS = \
+	-Wpointer-arith \
+	-Wcast-qual \
+	-Wmissing-prototypes \
+	-Wno-missing-braces \
+	-Wall \
+	-Wextra \
+	-Wformat=2 \
+	-Wno-format-nonliteral \
+	-Wshadow \
+	-std=gnu89 \
+	$(PTHREAD_CFLAGS) \
+	$(PCRE_CFLAGS) \
+	$(LZMA_CFLAGS) \
+	$(ZLIB_CFLAGS)
+
+LDADD = \
+	$(PCRE_LIBS) \
+	$(LZMA_LIBS) \
+	$(ZLIB_LIBS) \
+	$(PTHREAD_LIBS)
 
 bin_PROGRAMS = ag
-ag_SOURCES = src/ignore.c src/ignore.h src/log.c src/log.h src/options.c src/options.h src/print.c src/print_w32.c src/print.h src/scandir.c src/scandir.h src/search.c src/search.h src/lang.c src/lang.h src/util.c src/util.h src/decompress.c src/decompress.h src/uthash.h src/main.c src/zfile.c
-ag_LDADD = ${PCRE_LIBS} ${LZMA_LIBS} ${ZLIB_LIBS} $(PTHREAD_LIBS)
+ag_SOURCES = \
+	src/decompress.c \
+	src/decompress.h \
+	src/ignore.c \
+	src/ignore.h \
+	src/lang.c \
+	src/lang.h \
+	src/log.c \
+	src/log.h \
+	src/main.c \
+	src/options.c \
+	src/options.h \
+	src/print.c \
+	src/print.h \
+	src/print_w32.c \
+	src/scandir.c \
+	src/scandir.h \
+	src/search.c \
+	src/search.h \
+	src/uthash.h \
+	src/util.c \
+	src/util.h \
+	src/zfile.c
 
 dist_man_MANS = doc/ag.1
 
@@ -11,17 +57,21 @@ dist_bashcomp_DATA = ag.bashcomp.sh
 zshcompdir = $(datadir)/zsh/site-functions
 dist_zshcomp_DATA = _the_silver_searcher
 
-EXTRA_DIST = Makefile.w32 LICENSE NOTICE the_silver_searcher.spec README.md
+EXTRA_DIST = \
+	bootstrap \
+	LICENSE \
+	Makefile.w32 \
+	NOTICE \
+	README.md \
+	the_silver_searcher.spec
 
-all:
-	@$(MAKE) ag -r
 
 test: ag
 	cram -v tests/*.t
 if HAS_CLANG_FORMAT
 	CLANG_FORMAT=${CLANG_FORMAT} ./format.sh test
 else
-	@echo "clang-format is not available. Skipped clang-format test."
+	$(info clang-format is not available. Skipped clang-format test.)
 endif
 
 test_big: ag
@@ -30,4 +80,4 @@ test_big: ag
 test_fail: ag
 	cram -v tests/fail/*.t
 
-.PHONY : all clean test test_big test_fail
+.PHONY: test test_big test_fail

@@ -1,17 +1,14 @@
 CC = $(PTHREAD_CC)
 
-AM_CPPFLAGS = \
-	-D_GNU_SOURCE
+AM_CPPFLAGS = -D_GNU_SOURCE
 
 AM_CFLAGS = \
+	-Wall \
+	-Wextra \
 	-Wpointer-arith \
 	-Wcast-qual \
 	-Wmissing-prototypes \
-	-Wno-missing-braces \
-	-Wall \
-	-Wextra \
 	-Wformat=2 \
-	-Wno-format-nonliteral \
 	-Wshadow \
 	-std=gnu89 \
 	$(PTHREAD_CFLAGS) \
